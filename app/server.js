@@ -12,6 +12,9 @@ let db = require('./db/connect');
 let bodyParser = require("body-parser");
 
 const app = express();
+var connect = require('connect');
+var cookieParser = require('cookie-parser');
+app.use(cookiePareser());
 const compiler = webpack(webpackConfig);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

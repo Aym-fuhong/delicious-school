@@ -9,6 +9,5 @@ let dishSchema = new Schema({
 });
 
 // the collection's name is `dishes`
-let Dish = mongoose.model('Dish', dishSchema);
 
 module.exports = Dish;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import {Link} from 'react-router';
-
+import {hashHistory} from 'react-router';
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,10 +17,12 @@ export default class Login extends Component {
       data: {username: username, password: password},
       success: function (result) {
         if (result) {
-          self.location = "/#/main";
+          hashHistory.push('/#/main');
+         // self.location = "/#/main";
         } else {
           alert("用户名或密码错误！");
-          location.href = "/#/login";
+          hashHistory.push('/#/login');
+         // location.href = "/#/login";
         }
       }
     })

@@ -7,14 +7,16 @@ export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dishes: []
+      dishes: [],
+      username:''
     };
     this.initData();
     this.dishView = this.dishView.bind(this);
-
   }
 
   render() {
+    let cookie = request.cookie.cookiename;
+    console.log(cookie);
     const stores = this.state.dishes.reduce((result, {dishstore})=> {
       let found = result.find((item)=>item === dishstore);
       if (!found) {
@@ -40,7 +42,7 @@ export default class Main extends Component {
       <div className="container-fluid">
         <div className="main-head">
           <Link to="#" className="logo">Delicious School</Link>
-          <Link to="login" className="main-top">登录</Link>
+          <Link to="login" className="main-top">欢迎{this.state.username}登录</Link>
           <Link to="register" className="main-top">注册</Link>
           <Link to="order" className="main-top">我的订单</Link>
         </div>
@@ -86,7 +88,8 @@ export default class Main extends Component {
     const self = this;
     $.post('/init', function (dishes) {
       self.setState({
-        dishes: dishes
+        dishes: dishes,
+     //   username:后台传送的用户名
       });
     });
   }

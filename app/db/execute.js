@@ -2,12 +2,14 @@ let User = require('./entity/user');
 let Order = require('./entity/order');
 import Dish from './entity/dish';
 
+
 exports.findUser = function (req, res) {
   let username = req.body.username;
   let password = req.body.password;
   User.findOne({username: username, password: password}, function (err, users) {
     if (err) throw err;
-    res.send(users);
+    res.cookie('token',{username:username,password:password},{ maxAge: 20000,httpOnly:true, path:'/'});//cooike 时长 30 sec
+    //res.send(users);
 
   });
 };
@@ -28,10 +30,13 @@ exports.register = function (req, res) {
   })
 };
 exports.findDish = function (req, res) {
+  let token = req.cookies['token'];
+  const username = getUsernameFromToken(token);
+ // return res.json({username, greeting: 'Hello, logged user!'})
   Dish.find({}, function (err, dishes) {
     if (err) throw err;
     if (dishes) {
-      res.send(dishes);
+      res.send(dishes+":"+username);
     } else {
       res.send(false);
     }
@@ -56,7 +61,10 @@ exports.saveOrder = function (req, res) {
   })
 };
 
-
+function getUsernameFromToken(token) {
+  const separatorIndex = _.lastIndexOf(token, ':');
+  return token.substring(0, separatorIndex);
+}
 
 
 
